@@ -55,7 +55,9 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void led_blink(GPIO_TypeDef *led_port, uint16_t led_pin);
+void colorful_led(void);
+void key_led(void);
 /* USER CODE END 0 */
 
 /**
@@ -97,10 +99,9 @@ int main(void)
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-		HAL_GPIO_WritePin(led_red_GPIO_Port, led_red_Pin, GPIO_PIN_SET);
-		HAL_Delay(1000);
-		HAL_GPIO_WritePin(led_red_GPIO_Port, led_red_Pin, GPIO_PIN_RESET);
-		HAL_Delay(1000);
+		// colorful_led();
+		// led_blink(led_blue_GPIO_Port, led_blue_Pin);
+		key_led();
 	}
 	/* USER CODE END 3 */
 }
@@ -143,7 +144,72 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void key_led(void)
+{
+	int result = 0;
+	while (1) {
+		result = HAL_GPIO_ReadPin(KEY_LEFT_GPIO_Port, KEY_LEFT_Pin);
+		if (result == KEY_STATE_DOWN) {
+			// 消抖
+			HAL_Delay(10);
+			// 延时 10ms 后检测是否还是按下状态, 如果是, 则执行
+			if (HAL_GPIO_ReadPin(KEY_LEFT_GPIO_Port, KEY_LEFT_Pin) == KEY_STATE_DOWN) {
+				HAL_GPIO_TogglePin(led_red_GPIO_Port, led_red_Pin);
+				// 等待按键释放
+				while (HAL_GPIO_ReadPin(KEY_LEFT_GPIO_Port, KEY_LEFT_Pin) ==
+				       KEY_STATE_DOWN) {
+				}
+			}
+		}
+		result = HAL_GPIO_ReadPin(KEY_UP_GPIO_Port, KEY_UP_Pin);
+		if (result == KEY_STATE_UP) {
+			HAL_GPIO_WritePin(led_blue_GPIO_Port, led_blue_Pin, LED_OFF);
+		} else {
+			HAL_GPIO_WritePin(led_blue_GPIO_Port, led_blue_Pin, LED_ON);
+		}
+		result = HAL_GPIO_ReadPin(KEY_RIGHT_GPIO_Port, KEY_RIGHT_Pin);
+		if (result == KEY_STATE_UP) {
+			HAL_GPIO_WritePin(led_green_GPIO_Port, led_green_Pin, LED_OFF);
+		} else {
+			HAL_GPIO_WritePin(led_green_GPIO_Port, led_green_Pin, LED_ON);
+		}
+	}
+}
+void led_blink(GPIO_TypeDef *led_port, uint16_t led_pin)
+{
+	while (1) {
+		HAL_GPIO_TogglePin(led_port, led_pin);
+		HAL_Delay(1000);
+	}
+}
+void colorful_led(void)
+{
+	short state = 0;
+	while (1) {
+		if (state < 3 || state == 5) {
+			HAL_GPIO_WritePin(led_red_GPIO_Port, led_red_Pin, GPIO_PIN_RESET);
+		} else {
+			HAL_GPIO_WritePin(led_red_GPIO_Port, led_red_Pin, GPIO_PIN_SET);
+		}
 
+		if (state >= 1 && state <= 3) {
+			HAL_GPIO_WritePin(led_green_GPIO_Port, led_green_Pin, GPIO_PIN_RESET);
+		} else {
+			HAL_GPIO_WritePin(led_green_GPIO_Port, led_green_Pin, GPIO_PIN_SET);
+		}
+
+		if (state >= 2) {
+			HAL_GPIO_WritePin(led_blue_GPIO_Port, led_blue_Pin, GPIO_PIN_RESET);
+		} else {
+			HAL_GPIO_WritePin(led_blue_GPIO_Port, led_blue_Pin, GPIO_PIN_SET);
+		}
+		HAL_Delay(1000);
+		state++;
+		if (state > 5) {
+			state = 0;
+		}
+	}
+}
 /* USER CODE END 4 */
 
 /**

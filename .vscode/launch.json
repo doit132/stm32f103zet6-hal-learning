@@ -8,7 +8,7 @@
             "name": "Cortex Debug",
             "type": "cortex-debug",
             "request": "launch",
-            "executable": "./build/stm32f103zet6-hal-learning.hex", //elf文件看当前工程名称或是看build文件夹下的elf文件名称
+            "executable": "./build/stm32f103zet6-hal-learning.elf", //elf 文件看当前工程名称或是看 build 文件夹下的 elf 文件名称
             // "preLaunchTask": "build",
             "cwd": "${workspaceRoot}",
             "servertype": "openocd",
