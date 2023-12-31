@@ -1085,8 +1085,9 @@ typedef void (*pTIM_CallbackTypeDef)(
 	(TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_0) /*!< Toggle                                 */
 #define TIM_OCMODE_PWM1 \
 	(TIM_CCMR1_OC1M_2 | TIM_CCMR1_OC1M_1) /*!< PWM mode 1                             */
-#define TIM_OCMODE_PWM2 (TIM_CCMR1_OC1M_2 | TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_0) /*!< PWM mode 2 \
-										  */
+#define TIM_OCMODE_PWM2 \
+	(TIM_CCMR1_OC1M_2 | TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_0) /*!< PWM mode 2 \
+								  */
 #define TIM_OCMODE_FORCED_ACTIVE \
 	(TIM_CCMR1_OC1M_2 | TIM_CCMR1_OC1M_0)	    /*!< Force active level                     */
 #define TIM_OCMODE_FORCED_INACTIVE TIM_CCMR1_OC1M_2 /*!< Force inactive level                   */

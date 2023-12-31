@@ -648,9 +648,9 @@ typedef struct {
 		#define LL_RCC_PLLI2S_MUL_14 RCC_CFGR2_PLL3MUL14 /*!< PLLI2S input clock * 14 */
 		#define LL_RCC_PLLI2S_MUL_16 RCC_CFGR2_PLL3MUL16 /*!< PLLI2S input clock * 16 */
 		#define LL_RCC_PLLI2S_MUL_20 RCC_CFGR2_PLL3MUL20 /*!< PLLI2S input clock * 20 */
-								 /**
-								  * @}
-								  */
+		/**
+		 * @}
+		 */
 
 	#endif /* RCC_PLLI2S_SUPPORT */
 
